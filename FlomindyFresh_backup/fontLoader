@@ -1,0 +1,14 @@
+import * as Font from 'expo-font';
+
+export const loadFonts = async () => {
+  try {
+    await Font.loadAsync({
+      'NotoSansSC': require('./assets/fonts/NotoSansSC-VariableFont_wght.ttf'),
+    });
+    console.log('Font cinese caricato con successo');
+    return true;
+  } catch (error) {
+    console.error('Errore nel caricamento del font:', error);
+    return false;
+  }
+};

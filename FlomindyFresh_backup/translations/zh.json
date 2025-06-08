@@ -1,0 +1,119 @@
+{
+  "app": {
+    "title": "Flomindy",
+    "subtitle": "脑波应用"
+  },
+  "menu": {
+    "title": "菜单",
+    "howItWorks": "工作原理",
+    "scientificBasis": "科学基础",
+    "disclaimer": "免责声明",
+    "settings": "设置",
+    "information": "信息"
+  },
+  "controls": {
+    "frequencyLabel": "脑电波频率",
+    "deepEffect": "深度效果",
+    "timer": "计时器",
+    "start": "开始",
+    "stop": "停止",
+    "background": "后台",
+    "low": "低",
+    "high": "高",
+    "timerOff": "关闭",
+    "timerMinutes": "分钟",
+    "focusingNow": "专注中",
+    "readyToFocus": "准备专注"
+  },
+  "brainwaves": {
+    "deltaTheta": "德尔塔/西塔",
+    "theta": "西塔",
+    "alphaLow": "阿尔法 (低)",
+    "alphaHigh": "阿尔法 (高)",
+    "beta": "贝塔",
+    "sleepRelaxation": "睡眠与放松",
+    "deepRelaxation": "深度放松",
+    "deepLearning": "深度学习",
+    "dynamicLearning": "动态学习",
+    "problemSolving": "问题解决"
+  },
+  "settings": {
+    "language": "语言",
+    "currentLanguage": "当前语言",
+    "notifications": "通知",
+    "enableNotifications": "启用通知",
+    "languageChanged": "语言已更改",
+    "languageChangedMessage": "语言已成功更改。"
+  },
+  "backgroundMode": {
+    "title": "后台模式",
+    "message": "Flomindy 将在后台以 {frequency} Hz 运行。\n\n- 拖动窗口移动\n- 双击：返回应用\n- 长按：关闭应用",
+    "ok": "确定"
+  },
+  "howItWorks": {
+    "description": "Flomindy 是一款创新应用，通过屏幕闪烁同步脑电波，提高日常设备使用时的精神表现。您可以正常使用设备，同时保持脑波处于最适合您活动的频率。",
+    "howItWorksTitle": "工作原理",
+    "howItWorksText": "特定频率的光闪烁会诱导大脑与这些频率同步（神经同步），激活特定的精神状态：",
+    "frequencyPoint1": "3-6 Hz (德尔塔/西塔): 深度放松、冥想和创造性思维",
+    "frequencyPoint2": "6-9 Hz (西塔): 放松的警觉、提高创造力和记忆力",
+    "frequencyPoint3": "9-12 Hz (阿尔法低): 放松的专注、学习和记忆力增强",
+    "frequencyPoint4": "12-15 Hz (阿尔法高): 积极的专注、问题解决能力增强",
+    "frequencyPoint5": "15-30 Hz (贝塔): 高度警觉、最佳认知功能",
+    "howToUseTitle": "如何使用 Flomindy",
+    "howToUseStep1": "根据您的活动使用滑块选择所需频率",
+    "howToUseStep2": "调整\"深度效果\"的强度",
+    "howToUseStep3": "设置可选的计时器",
+    "howToUseStep4": "按下开始激活效果",
+    "howToUseStep5": "按下后台继续正常活动，同时 Flomindy 保持您的大脑与所选频率同步"
+  },
+  "scientificBasis": {
+    "description": "通过光刺激进行神经同步已被众多科学研究所证实。在特定频率下的节律性视觉刺激可以影响大脑的电活动（脑电图）。",
+    "researchTitle": "关键研究",
+    "research1": "Adrian 和 Matthews（1934）的研究首次证明了大脑对节律光刺激的反应",
+    "research2": "Herrmann（2001）的研究证实视觉刺激可以诱导同步的脑电波振荡",
+    "research3": "多项临床研究表明在学习、注意力和放松方面的益处",
+    "entrainmentTitle": "神经同步现象",
+    "entrainmentText": "同步是物理学的基本原理，发生在节律系统相互作用时。在大脑中，神经元倾向于与外部节律刺激同步，如特定频率闪烁的光。",
+    "applicationsTitle": "实际应用",
+    "applicationsText": "使用特定频率影响大脑活动有几种应用：",
+    "application1": "提高注意力和集中力",
+    "application2": "支持学习和记忆",
+    "application3": "放松技术和压力管理",
+    "application4": "优化认知表现",
+    "bibliographyTitle": "参考文献",
+    "bibliography1": "Adrian ED, Matthews BH. (1934). \"Berger 节律：人类枕叶的电位变化。\" Brain, 57(4), 355-385.",
+    "bibliography2": "Herrmann CS. (2001). \"人类脑电对1-100 Hz闪烁的反应：视觉皮层中的共振现象及其与认知现象的潜在相关性。\" Experimental Brain Research, 137(3-4), 346-353.",
+    "bibliography3": "Notbohm A, Kurths J, Herrmann CS. (2016). \"通过节律光刺激修改脑振荡提供了神经同步的证据，但不支持事件相关反应的叠加。\" Frontiers in Human Neuroscience, 10, 10.",
+    "bibliography4": "Yao J, Zhang L, Zhang C等（2024）。\"节律性γ频率光闪烁通过IL-12介导的细胞因子产生调节神经炎症反应，改善慢性应激小鼠的应激相关行为和认知缺陷。\" Brain, Behavior, and Immunity.",
+    "bibliography5": "Mankowska M, Mojs E, Samborska-Sablik A, Jarema M (2022)。\"闪烁光背后的神经心理学和神经生理学机制：叙述性综述。\" Frontiers in Psychology.",
+    "bibliography6": "Maylor SA, Birak DJ, Graham KS (2006)。\"10 Hz闪烁改善老年人的识别记忆。\" BMC Neuroscience, 7, 21.",
+    "bibliography7": "Al-Abduljawad MZ等(2025)。\"60 Hz白光闪烁刺激诱导强烈的躯体和神经反应。\" bioRxiv."
+  },
+  "disclaimer": {
+    "warningTitle": "重要通知",
+    "bullet1": "Flomindy 是认知增强支持工具，而非医疗设备",
+    "bullet2": "如果您有癫痫或光敏感史，请勿使用 Flomindy",
+    "bullet3": "如果您感到不适、眩晕、头痛或其他负面症状，请立即停止使用",
+    "bullet4": "如果您有任何神经系统疾病，请在使用前咨询医生",
+    "bullet5": "效果因人而异",
+    "bullet6": "驾驶或操作机械时请勿使用",
+    "mainText": "Flomindy 提供的信息基于科学研究，但该应用不能替代专业医疗建议。使用本应用的风险由您自行承担。",
+    "liabilityTitle": "责任限制",
+    "liabilityText": "Flomindy 开发者不对因使用或无法使用本应用而产生的任何直接、间接或后果性损害负责。用户使用本应用的风险由自己承担。"
+  },
+"information": {
+  "version": "版本",
+  "aboutTitle": "关于应用",
+  "aboutText": "Flomindy 是一款专利应用，旨在通过 \"神经同步\"过程增强心理表现。利用特定频率的光闪烁，应用同步脑波，优化最适合您正在进行活动的心理状态。",
+  "developersTitle": "开发团队",
+  "developersText": "概念和开发完全由 意科技术（东莞）有限公司 开发团队完成。该应用是技术和认知领域深厚知识的结晶。",
+  "contactTitle": "联系方式",
+  "emailLabel": "电子邮件：",
+  "websiteLabel": "网站：",
+  "propertyTitle": "知识产权",
+  "propertyText": "Flomindy 是一款专利应用。未经授权的复制、分发或修改严格禁止。如有许可请求或知识产权问题，请直接联系我们。",
+  "legalNotesTitle": "法律声明",
+  "legalNotesText": "使用本应用受现行隐私和个人数据保护法规的约束。如需更多信息，请联系我们。",
+  "copyright": "© 2025 Flomindy. 保留所有权利。"
+}
+}

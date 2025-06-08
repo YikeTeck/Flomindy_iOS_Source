@@ -1,0 +1,105 @@
+import React from 'react';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+
+export default function Disclaimer({ onClose }) {
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+          <Text style={styles.closeButtonText}>✕</Text>
+        </TouchableOpacity>
+        <Text style={styles.title}>Disclaimer</Text>
+      </View>
+      
+      <ScrollView style={styles.content}>
+        <Text style={styles.warningTitle}>Avviso Importante</Text>
+        
+        <View style={styles.bulletPoints}>
+          <Text style={styles.bulletPoint}>• Flomindy è uno strumento di supporto per il miglioramento cognitivo e non un dispositivo medico</Text>
+          <Text style={styles.bulletPoint}>• Non utilizzare Flomindy se hai una storia di epilessia o sensibilità fotosensibile</Text>
+          <Text style={styles.bulletPoint}>• Interrompi immediatamente l'uso se provi fastidio, vertigini, mal di testa o altri sintomi negativi</Text>
+          <Text style={styles.bulletPoint}>• Consulta un medico prima dell'uso se hai qualsiasi condizione neurologica</Text>
+          <Text style={styles.bulletPoint}>• I risultati possono variare da persona a persona</Text>
+          <Text style={styles.bulletPoint}>• Non utilizzare durante la guida o l'uso di macchinari</Text>
+        </View>
+        
+        <Text style={styles.paragraph}>
+          Le informazioni fornite da Flomindy sono basate su ricerche scientifiche, ma l'app non sostituisce una consulenza medica professionale. L'uso dell'app è a proprio rischio.
+        </Text>
+        
+        <Text style={styles.sectionTitle}>Limitazioni di responsabilità</Text>
+        <Text style={styles.paragraph}>
+          Gli sviluppatori di Flomindy non sono responsabili per eventuali danni diretti, indiretti o consequenziali derivanti dall'uso o dall'impossibilità di utilizzare l'app. L'utente utilizza l'app a proprio rischio e responsabilità.
+        </Text>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#121824',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#333',
+  },
+  closeButton: {
+    padding: 10,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 20,
+  },
+  title: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 20,
+  },
+  content: {
+    flex: 1,
+    padding: 20,
+  },
+  warningTitle: {
+    color: '#F49A3A',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  paragraph: {
+    color: 'white',
+    fontSize: 16,
+    lineHeight: 24,
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    color: '#8ED054',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 15,
+  },
+  bulletPoints: {
+    marginBottom: 20,
+  },
+  bulletPoint: {
+    color: 'white',
+    fontSize: 16,
+    lineHeight: 24,
+    marginBottom: 10,
+  },
+  bold: {
+    fontWeight: 'bold',
+  }
+});

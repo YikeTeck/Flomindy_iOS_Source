@@ -1,0 +1,1079 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Animated, ScrollView, Dimensions, Platform, Alert, PanResponder } from 'react-native';
+import Slider from '@react-native-community/slider';
+import Svg, { Path } from 'react-native-svg';
+import { LinearGradient } from 'expo-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import HowItWorks from './HowItWorks';
+import BasiScientifiche from './BasiScientifiche';
+import Disclaimer from './Disclaimer';
+import Impostazioni from './Impostazioni';
+import Informazioni from './Informazioni';
+import { AppState } from 'react-native';
+import './i18n';
+import { useTranslation } from 'react-i18next';
+import FloatingEEG from './FloatingEEG';
+
+
+// Get screen dimensions
+const { width, height } = Dimensions.get('window');
+
+// EEG Wave Patterns - Definiti sia in avanti che indietro per animazione fluida
+const EEGWavePatterns = {
+delta: {
+forward: "M0,50 C25,30 50,70 75,50 C100,30 125,70 150,50 C175,30 200,70 225,50 C250,30 275,70 300,50",
+backward: "M0,50 C25,70 50,30 75,50 C100,70 125,30 150,50 C175,70 200,30 225,50 C250,70 275,30 300,50"
+},
+theta: {
+forward: "M0,50 C10,30 15,25 20,30 C25,35 30,55 35,60 C40,65 45,55 50,40 C55,25 60,30 65,50 C70,70 75,65 80,55 C85,45 90,35 95,50 C100,65 105,70 110,65 C115,60 120,40 125,30 C130,20 135,35 140,50 C145,65 150,70 155,55 C160,40 165,35 170,40 C175,45 180,65 185,70 C190,75 195,65 200,50 C205,35 210,40 215,60 C220,80 225,75 230,65 C235,55 240,45 245,60 C250,75 255,80 260,75 C265,70 270,50 275,40 C280,30 285,45 290,60 C295,75 300,80 300,50",
+backward: "M0,50 C10,70 15,75 20,70 C25,65 30,45 35,40 C40,35 45,45 50,60 C55,75 60,70 65,50 C70,30 75,35 80,45 C85,55 90,65 95,50 C100,35 105,30 110,35 C115,40 120,60 125,70 C130,80 135,65 140,50 C145,35 150,30 155,45 C160,60 165,65 170,60 C175,55 180,35 185,30 C190,25 195,35 200,50 C205,65 210,60 215,40 C220,20 225,25 230,35 C235,45 240,55 245,40 C250,25 255,20 260,25 C265,30 270,50 275,60 C280,70 285,55 290,40 C295,25 300,20 300,50"
+},
+alpha: {
+forward: "M0,50 C2,35 5,45 8,55 C11,65 13,62 15,45 C17,28 20,30 23,45 C26,60 29,65 32,53 C35,41 38,38 41,47 C44,56 47,60 50,50 C53,40 56,37 59,44 C62,51 65,60 68,55 C71,50 74,43 77,46 C80,49 83,57 86,62 C89,67 92,63 95,56 C98,49 101,44 104,49 C107,54 110,63 113,68 C116,73 119,69 122,62 C125,55 128,50 131,55 C134,60 137,69 140,73 C143,77 146,72 149,64 C152,56 155,53 158,59 C161,65 164,74 167,78 C170,82 173,75 176,66 C179,57 182,54 185,60 C188,66 191,75 194,75 C197,75 200,70 203,60 C206,50 209,48 212,53 C215,58 218,68 221,73 C224,78 227,78 230,65 C233,52 236,50 239,57 C242,64 245,77 248,82 C251,87 254,85 257,76 C260,67 263,64 266,70 C269,76 272,84 275,88 C278,92 281,88 284,79 C287,70 290,67 293,72 C296,77 299,87 300,50",
+backward: "M0,50 C2,65 5,55 8,45 C11,35 13,38 15,55 C17,72 20,70 23,55 C26,40 29,35 32,47 C35,59 38,62 41,53 C44,44 47,40 50,50 C53,60 56,63 59,56 C62,49 65,40 68,45 C71,50 74,57 77,54 C80,51 83,43 86,38 C89,33 92,37 95,44 C98,51 101,56 104,51 C107,46 110,37 113,32 C116,27 119,31 122,38 C125,45 128,50 131,45 C134,40 137,31 140,27 C143,23 146,28 149,36 C152,44 155,47 158,41 C161,35 164,26 167,22 C170,18 173,25 176,34 C179,43 182,46 185,40 C188,34 191,25 194,25 C197,25 200,30 203,40 C206,50 209,52 212,47 C215,42 218,32 221,27 C224,22 227,22 230,35 C233,48 236,50 239,43 C242,36 245,23 248,18 C251,13 254,15 257,24 C260,33 263,36 266,30 C269,24 272,16 275,12 C278,8 281,12 284,21 C287,30 290,33 293,28 C296,23 299,13 300,50"
+},
+beta: {
+forward: "M0,50 C1,40 2,44 3,50 C4,56 5,60 6,55 C7,50 8,40 9,38 C10,36 11,40 12,49 C13,58 14,64 15,60 C16,56 17,45 18,42 C19,39 20,42 21,50 C22,58 23,66 24,62 C25,58 26,48 27,43 C28,38 29,42 30,50 C31,58 32,66 33,62 C34,58 35,48 36,46 C37,44 38,48 39,55 C40,62 41,66 42,63 C43,60 44,50 45,46 C46,42 47,44 48,50 C49,56 50,62 51,59 C52,56 53,47 54,44 C55,41 56,45 57,52 C58,59 59,65 60,61 C61,57 62,48 63,46 C64,44 65,48 66,55 C67,62 68,66 69,64 C70,62 71,52 72,50 C73,48 74,52 75,57 C76,62 77,66 78,62 C79,58 80,49 81,47 C82,45 83,49 84,55 C85,61 86,65 87,62 C88,59 89,49 90,46 C91,43 92,45 93,53 C94,61 95,68 96,64 C97,60 98,49 99,46 C100,43 101,47 102,55 C103,63 104,68 105,66 C106,64 107,55 108,52 C109,49 110,52 111,58 C112,64 113,69 114,65 C115,61 116,51 117,47 C118,43 119,45 120,53 C121,61 122,69 123,68 C124,67 125,60 126,55 C127,50 128,52 129,60 C130,68 131,76 132,74 C133,72 134,64 135,61 C136,58 137,61 138,65 C139,69 140,73 141,70 C142,67 143,60 144,54 C145,48 146,50 147,55 C148,60 149,65 150,64 C151,63 152,56 153,52 C154,48 155,50 156,55 C157,60 158,66 159,64 C160,62 161,55 162,52 C163,49 164,51 165,58 C166,65 167,72 168,71 C169,70 170,62 171,58 C172,54 173,55 174,60 C175,65 176,71 177,70 C178,69 179,62 180,58 C181,54 182,55 183,60 C184,65 185,71 186,70 C187,69 188,62 189,60 C190,58 191,62 192,67 C193,72 194,75 195,72 C196,69 197,60 198,57 C199,54 200,56 201,62 C202,68 203,75 204,72 C205,69 206,61 207,58 C208,55 209,58 210,64 C211,70 212,75 213,74 C214,73 215,66 216,62 C217,58 218,60 219,64 C220,68 221,72 222,70 C223,68 224,61 225,58 C226,55 227,60 228,65 C229,70 230,75 231,70 C232,65 233,57 234,55 C235,53 236,57 237,62 C238,67 239,72 240,70 C241,68 242,60 243,57 C244,54 245,56 246,62 C247,68 248,75 249,74 C250,73 251,68 252,63 C253,58 254,59 255,64 C256,69 257,76 258,75 C259,74 260,66 261,62 C262,58 263,59 264,64 C265,69 266,74 267,72 C268,70 269,61 270,58 C271,55 272,56 273,63 C274,70 275,77 276,76 C277,75 278,68 279,65 C280,62 281,65 282,70 C283,75 284,78 285,76 C286,74 287,66 288,63 C289,60 290,62 291,69 C292,76 293,83 294,80 C295,77 296,69 297,65 C298,61 299,62 300,50",
+backward: "M0,50 C1,60 2,56 3,50 C4,44 5,40 6,45 C7,50 8,60 9,62 C10,64 11,60 12,51 C13,42 14,36 15,40 C16,44 17,55 18,58 C19,61 20,58 21,50 C22,42 23,34 24,38 C25,42 26,52 27,57 C28,62 29,58 30,50 C31,42 32,34 33,38 C34,42 35,52 36,54 C37,56 38,52 39,45 C40,38 41,34 42,37 C43,40 44,50 45,54 C46,58 47,56 48,50 C49,44 50,38 51,41 C52,44 53,53 54,56 C55,59 56,55 57,48 C58,41 59,35 60,39 C61,43 62,52 63,54 C64,56 65,52 66,45 C67,38 68,34 69,36 C70,38 71,48 72,50 C73,52 74,48 75,43 C76,38 77,34 78,38 C79,42 80,51 81,53 C82,55 83,51 84,45 C85,39 86,35 87,38 C88,41 89,51 90,54 C91,57 92,55 93,47 C94,39 95,32 96,36 C97,40 98,51 99,54 C100,57 101,53 102,45 C103,37 104,32 105,34 C106,36 107,45 108,48 C109,51 110,48 111,42 C112,36 113,31 114,35 C115,39 116,49 117,53 C118,57 119,55 120,47 C121,39 122,31 123,32 C124,33 125,40 126,45 C127,50 128,48 129,40 C130,32 131,24 132,26 C133,28 134,36 135,39 C136,42 137,39 138,35 C139,31 140,27 141,30 C142,33 143,40 144,46 C145,52 146,50 147,45 C148,40 149,35 150,36 C151,37 152,44 153,48 C154,52 155,50 156,45 C157,40 158,34 159,36 C160,38 161,45 162,48 C163,51 164,49 165,42 C166,35 167,28 168,29 C169,30 170,38 171,42 C172,46 173,45 174,40 C175,35 176,29 177,30 C178,31 179,38 180,42 C181,46 182,45 183,40 C184,35 185,29 186,30 C187,31 188,38 189,40 C190,42 191,38 192,33 C193,28 194,25 195,28 C196,31 197,40 198,43 C199,46 200,44 201,38 C202,32 203,25 204,28 C205,31 206,39 207,42 C208,45 209,42 210,36 C211,30 212,25 213,26 C214,27 215,34 216,38 C217,42 218,40 219,36 C220,32 221,28 222,30 C223,32 224,39 225,42 C226,45 227,40 228,35 C229,30 230,25 231,30 C232,35 233,43 234,45 C235,47 236,43 237,38 C238,33 239,28 240,30 C241,32 242,40 243,43 C244,46 245,44 246,38 C247,32 248,25 249,26 C250,27 251,32 252,37 C253,42 254,41 255,36 C256,31 257,24 258,25 C259,26 260,34 261,38 C262,42 263,41 264,36 C265,31 266,26 267,28 C268,30 269,39 270,42 C271,45 272,44 273,37 C274,30 275,23 276,24 C277,25 278,32 279,35 C280,38 281,35 282,30 C283,25 284,22 285,24 C286,26 287,34 288,37 C289,40 290,38 291,31 C292,24 293,17 294,20 C295,23 296,31 297,35 C298,39 299,38 300,50"
+}
+};
+
+export default function App() {
+// Stati per gestire la frequenza, l'intensità e l'attivazione
+// Funzione per salvare le impostazioni utente
+const saveSettings = async () => {
+try {
+const settings = {
+frequency,
+intensity,
+timerMinutes,
+timerActive
+};
+await AsyncStorage.setItem('flomindySettings', JSON.stringify(settings));
+console.log('Impostazioni salvate con successo');
+} catch (error) {
+console.log('Errore nel salvare le impostazioni:', error);
+}
+};
+
+// Funzione per caricare le impostazioni utente
+const loadSettings = async () => {
+try {
+const savedSettings = await AsyncStorage.getItem('flomindySettings');
+if (savedSettings) {
+const settings = JSON.parse(savedSettings);
+setFrequency(settings.frequency || 10);
+setIntensity(settings.intensity || 0.5);
+setTimerMinutes(settings.timerMinutes || 30);
+setTimerActive(settings.timerActive || false);
+console.log('Impostazioni caricate con successo');
+}
+} catch (error) {
+console.log('Errore nel caricare le impostazioni:', error);
+}
+};
+const [frequency, setFrequency] = useState(10);
+const [intensity, setIntensity] = useState(0.5); 
+const [isActive, setIsActive] = useState(false);
+const [timerMinutes, setTimerMinutes] = useState(30);
+const [timerActive, setTimerActive] = useState(false);
+const [remainingTime, setRemainingTime] = useState(0);
+const [canGoBackground, setCanGoBackground] = useState(false);
+const [menuOpen, setMenuOpen] = useState(false);
+const [showHowItWorks, setShowHowItWorks] = useState(false);
+const [showBasiScientifiche, setShowBasiScientifiche] = useState(false);
+const [showDisclaimer, setShowDisclaimer] = useState(false);
+const [showImpostazioni, setShowImpostazioni] = useState(false);
+const [showInformazioni, setShowInformazioni] = useState(false);
+const [inBackgroundMode, setInBackgroundMode] = useState(false);
+const { t, i18n } = useTranslation();
+const [bubblePosition, setBubblePosition] = useState({ top: 40, left: 20 });
+
+// Ottieni il tipo di onda cerebrale in base alla frequenza (con fallback)
+const getBrainWaveType = (freq) => {
+  if (freq < 6) return t('brainwaves.deltaTheta', 'Delta/Theta');
+  if (freq < 9) return t('brainwaves.theta', 'Theta');
+  if (freq < 12) return t('brainwaves.alphaLow', 'Alpha (Low)');
+  if (freq < 15) return t('brainwaves.alphaHigh', 'Alpha (High)');
+  return t('brainwaves.beta', 'Beta');
+};
+
+// Ottieni la descrizione in base alla frequenza (con fallback)
+const getBrainWaveDescription = (freq) => {
+  if (freq < 6) return t('brainwaves.sleepRelaxation', 'Sleep & Relaxation');
+  if (freq < 9) return t('brainwaves.deepRelaxation', 'Deep Relaxation');
+  if (freq < 12) return t('brainwaves.deepLearning', 'Deep Learning');
+  if (freq < 15) return t('brainwaves.dynamicLearning', 'Dynamic Learning');
+  return t('brainwaves.problemSolving', 'Problem Solving');
+};
+const currentLanguage = i18n.language;
+const appSubtitle = t('app.subtitle');
+const frequencyLabel = t('controls.frequencyLabel');
+const deepEffectLabel = t('controls.deepEffect');
+const timerLabel = t('controls.timer');
+const lowLabel = t('controls.low');
+const highLabel = t('controls.high');
+const startButtonText = isActive ? t('controls.stop') : t('controls.start');
+const backgroundButtonText = t('controls.background');
+const statusText = isActive ? t('controls.focusingNow') : t('controls.readyToFocus');
+
+// Valore animato per l'effetto di flickering
+const flickerValue = useRef(new Animated.Value(0)).current;
+// Valore animato per l'animazione dell'onda EEG
+const waveAnimation = useRef(new Animated.Value(0)).current;
+// Funzione per ottenere il colore in base alla frequenza
+const getFrequencyColor = (freq) => {
+if (freq < 6) return '#4EB3AC'; // Delta/Theta - turchese chiaro
+if (freq < 9) return '#56C988'; // Theta - verde menta
+if (freq < 12) return '#8ED054'; // Alpha basso - verde lime
+if (freq < 15) return '#DBB942'; // Alpha alto - giallo ambrato
+return '#F49A3A'; // Beta - arancione
+};
+
+// Colore della frequenza attuale
+const frequencyColor = getFrequencyColor(frequency);
+// Effetto per gestire l'animazione dell'onda EEG - Dipende solo da frequency
+useEffect(() => {
+waveAnimation.setValue(0); // Resetta l'animazione quando cambia la frequenza
+const animationConfig = {
+toValue: 1,
+duration: 2000 / Math.max(1, frequency / 5),
+useNativeDriver: true,
+};
+Animated.loop(
+Animated.sequence([
+Animated.timing(waveAnimation, animationConfig),
+Animated.timing(waveAnimation, {
+...animationConfig,
+toValue: 0,
+}),
+])
+).start();
+return () => {
+waveAnimation.stopAnimation();
+};
+}, [frequency]); // SOLO frequency come dipendenza
+// Effetto per gestire l'animazione del flickering
+useEffect(() => {
+if (isActive) {
+// Calcola la durata in base alla frequenza
+const duration = 1000 / frequency;
+// Crea un'animazione in loop che alterna tra bianco e nero
+Animated.loop(
+Animated.sequence([
+// Passa a bianco
+Animated.timing(flickerValue, {
+toValue: 1,
+duration: duration / 2,
+useNativeDriver: false, // Necessario per animare backgroundColor
+}),
+// Torna a trasparente
+Animated.timing(flickerValue, {
+toValue: 0,
+duration: duration / 2,
+useNativeDriver: false,
+}),
+])
+).start();
+} else {
+// Ferma l'animazione e resetta l'opacità a 0 (trasparente)
+flickerValue.stopAnimation();
+flickerValue.setValue(0);
+}
+// Cleanup effect
+return () => {
+flickerValue.stopAnimation();
+};
+}, [isActive, frequency, intensity]);
+
+// Effetto per gestire il conto alla rovescia del timer
+useEffect(() => {
+let timerInterval;
+if (isActive && timerActive && remainingTime > 0) {
+// Avvia il conto alla rovescia
+timerInterval = setInterval(() => {
+setRemainingTime(prev => {
+if (prev <= 1) {
+// Quando il timer raggiunge zero, ferma l'effetto
+setIsActive(false);
+clearInterval(timerInterval);
+return 0;
+}
+return prev - 1;
+});
+}, 1000);
+}
+return () => {
+// Pulisci l'intervallo quando il componente si smonta o cambia lo stato
+if (timerInterval) clearInterval(timerInterval);
+};
+}, [isActive, timerActive, remainingTime]);
+
+// Carica le impostazioni all'avvio dell'app
+useEffect(() => {
+loadSettings();
+// Configura listener per salvare le impostazioni quando l'app va in background
+const subscription = AppState.addEventListener('change', nextAppState => {
+if (nextAppState === 'background') {
+saveSettings();
+}
+});
+return () => {
+subscription.remove();
+};
+}, []);
+// Gestione ottimizzazione in background
+useEffect(() => {
+  // Gestione dell'ottimizzazione in modalità background
+  if (inBackgroundMode) {
+    // Ferma l'animazione dell'onda EEG quando in background per risparmiare risorse
+    waveAnimation.stopAnimation();
+    
+    // Mantieni attivo solo il flickering se l'app è attiva
+    if (!isActive) {
+      flickerValue.stopAnimation();
+      flickerValue.setValue(0);
+    }
+    
+    // Registra una funzione per riattivare le animazioni quando l'app torna in primo piano
+    const handleAppStateChange = (nextAppState) => {
+      if (nextAppState === 'active' && inBackgroundMode) {
+        // Riavvia l'animazione dell'onda quando si torna all'app
+        const animationConfig = {
+          toValue: 1,
+          duration: 2000 / Math.max(1, frequency / 5),
+          useNativeDriver: true,
+        };
+        
+        Animated.loop(
+          Animated.sequence([
+            Animated.timing(waveAnimation, animationConfig),
+            Animated.timing(waveAnimation, {
+              ...animationConfig,
+              toValue: 0,
+            }),
+          ])
+        ).start();
+      }
+    };
+    
+    // Aggiungi l'event listener per lo state change
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
+    
+    return () => {
+      // Pulizia quando cambia lo stato o si smonta il componente
+      subscription.remove();
+      
+      // Riavvia l'animazione dell'onda se necessario
+      if (isActive && !inBackgroundMode) {
+        const animationConfig = {
+          toValue: 1,
+          duration: 2000 / Math.max(1, frequency / 5),
+          useNativeDriver: true,
+        };
+        
+        Animated.loop(
+          Animated.sequence([
+            Animated.timing(waveAnimation, animationConfig),
+            Animated.timing(waveAnimation, {
+              ...animationConfig,
+              toValue: 0,
+            }),
+          ])
+        ).start();
+      }
+    };
+  }
+}, [inBackgroundMode, isActive, frequency]);
+const toggleActive = () => {
+if (!isActive && timerActive) {
+// Se stiamo attivando e il timer è attivo, imposta il tempo rimanente
+setRemainingTime(timerMinutes * 60); // Converti minuti in secondi
+}
+const willBeActive = !isActive;
+setIsActive(willBeActive);
+// Aggiorna lo stato del pulsante background basato sullo stato attivo
+setCanGoBackground(willBeActive);
+// Se si sta fermando l'app, esci anche dalla modalità background e salva le impostazioni
+if (!willBeActive) {
+setInBackgroundMode(false);
+saveSettings(); // Aggiunto per salvare le impostazioni quando si ferma l'app
+}
+};
+// Funzione per gestire il passaggio in background
+// Effetto separato per verificare la lingua attualmente rilevata
+useEffect(() => {
+  console.log("Lingua attualmente rilevata:", i18n.language);
+}, [i18n.language]);
+// Funzione per gestire il passaggio in background
+const goToBackground = () => {
+  const title = t('backgroundMode.title');
+  const message = t('backgroundMode.message').replace('{frequency}', frequency.toFixed(1));
+  const okText = t('backgroundMode.ok');
+  
+  Alert.alert(
+    title,
+    message,
+    [{ 
+      text: okText, 
+      onPress: () => {
+        // Attiva modalità background
+        setInBackgroundMode(true);
+        
+        // Riduce aggiornamenti non essenziali per risparmiare batteria
+        console.log(`Modalità risparmio energetico attivata - frequenza: ${frequency.toFixed(1)} Hz`);
+      } 
+    }]
+  );
+};
+
+// Funzioni interpolate per creare un effetto di morphing fluido - Usa solo i pattern giusti
+const getWavePathForAnimation = () => {
+// Scegli i pattern appropriati in base alla frequenza
+let basePattern, nextPattern;
+if (frequency < 4.5) {
+basePattern = EEGWavePatterns.delta.forward;
+nextPattern = EEGWavePatterns.delta.backward;
+} else if (frequency < 7.5) {
+basePattern = EEGWavePatterns.theta.forward;
+nextPattern = EEGWavePatterns.theta.backward;
+} else if (frequency < 11.5) {
+basePattern = EEGWavePatterns.alpha.forward;
+nextPattern = EEGWavePatterns.alpha.backward;
+} else if (frequency < 16.5) {
+basePattern = EEGWavePatterns.alpha.forward;
+nextPattern = EEGWavePatterns.alpha.backward;
+} else {
+basePattern = EEGWavePatterns.beta.forward;
+nextPattern = EEGWavePatterns.beta.backward;
+}
+return waveAnimation.interpolate({
+inputRange: [0, 1],
+outputRange: [basePattern, nextPattern]
+});
+};
+const AnimatedPath = Animated.createAnimatedComponent(Path);
+
+
+
+return (
+<SafeAreaView style={styles.container}>
+{/* Overlay per l'effetto di flickering */}
+{/* Floating EEG bubble - visibile solo in modalità background */}
+{inBackgroundMode && (
+  <FloatingEEG
+    bubblePosition={bubblePosition}
+    setBubblePosition={setBubblePosition}
+    frequency={frequency}
+    setInBackgroundMode={setInBackgroundMode}
+    setIsActive={setIsActive}
+  />
+)}
+
+
+{isActive && (
+<Animated.View
+style={[
+StyleSheet.absoluteFill,
+{
+backgroundColor: 'white',
+opacity: Animated.multiply(flickerValue, intensity),
+zIndex: 1000,
+pointerEvents: 'none',
+}
+]}
+/>
+)}
+{/* Wrapper principale per migliorare il layout */}
+<View style={{flex: 1, position: 'relative'}}>
+<ScrollView
+contentContainerStyle={{
+paddingHorizontal: 20,
+paddingTop: 5,
+paddingBottom: 170, // Aumentato significativamente da 140
+}}
+showsVerticalScrollIndicator={false}
+>
+{/* Menu Panel - visibile solo quando menuOpen è true */}
+{menuOpen && (
+  <View style={styles.menuPanel}>
+  <TouchableOpacity style={styles.closeButton} onPress={() => setMenuOpen(false)}>
+    <Text style={styles.closeButtonText}>✕</Text>
+  </TouchableOpacity>
+  <Text style={styles.menuTitle}>{t('menu.title')}</Text>
+  <View style={{ flex: 1 }}>
+    <ScrollView showsVerticalScrollIndicator={false}>
+    {[
+  { 
+    title: t('menu.howItWorks'), 
+    icon: '❓', // Icona punto interrogativo per "Come funziona"
+    onPress: () => {
+      setMenuOpen(false);
+      setShowHowItWorks(true);
+    }
+  },
+  { 
+    title: t('menu.scientificBasis'), 
+    icon: '🔬', // Icona microscopio per "Basi Scientifiche"
+    onPress: () => {
+      setMenuOpen(false);
+      setShowBasiScientifiche(true);
+    }
+  },
+  { 
+    title: t('menu.disclaimer'), 
+    icon: '⚠️', // Icona avviso per "Disclaimer"
+    onPress: () => {
+      setMenuOpen(false);
+      setShowDisclaimer(true);
+    }
+  },
+  { 
+    title: t('menu.settings'), 
+    icon: '⚙️', // Icona ingranaggio per "Impostazioni"
+    onPress: () => {
+      setMenuOpen(false);
+      setShowImpostazioni(true);
+    }
+  },
+  { 
+    title: t('menu.information'), 
+    icon: 'ℹ️', // Icona informazioni per "Informazioni"
+    onPress: () => {
+      setMenuOpen(false);
+      setShowInformazioni(true);
+    }
+  },
+].map((item, index, array) => (
+  <TouchableOpacity 
+    key={index} 
+    style={[
+      styles.menuItem, 
+      index === array.length - 1 && styles.lastMenuItem
+    ]}
+    onPress={item.onPress}
+  >
+    <View style={styles.menuItemContent}>
+      <Text style={styles.menuItemIcon}>{item.icon}</Text>
+      <Text style={styles.menuItemText}>{item.title}</Text>
+    </View>
+  </TouchableOpacity>
+))}
+
+      <View style={{ height: 0 }} />
+    </ScrollView>
+  </View>
+</View>
+)}
+
+{/* Header with menu button and title */}
+<View style={styles.headerContainer}>
+<TouchableOpacity style={styles.menuButton} onPress={() => setMenuOpen(true)}>
+<Text style={styles.menuIcon}>☰</Text>
+</TouchableOpacity>
+<View style={styles.titleContainer}>
+<Text style={{...styles.title, fontSize: 24, marginBottom: 4}}>{t('app.title')}</Text>
+<Text style={{...styles.subtitle, fontSize: 14, marginBottom: 10}}>{appSubtitle}</Text>
+</View>
+</View>
+<View style={{...styles.frequencyContainer, padding: 12, marginBottom: 18}}>
+<View style={styles.frequencyHeader}>
+<Text style={styles.frequencyLabel}>{frequencyLabel}</Text>
+<Text style={styles.frequencyValue}>{frequency.toFixed(1)} Hz</Text>
+</View>
+{/* EEG Wave Visualization with original patterns */}
+<View style={styles.waveContainer}>
+<Svg height="70" width="300" viewBox="0 0 300 100">
+<AnimatedPath
+d={getWavePathForAnimation()}
+fill="none"
+stroke={frequencyColor}
+strokeWidth="3"
+strokeLinecap="round"
+/>
+</Svg>
+</View>
+<Text style={[styles.brainwaveType, { color: frequencyColor }]} numberOfLines={1} ellipsizeMode="tail">
+  {getBrainWaveType(frequency)} - {getBrainWaveDescription(frequency)}
+</Text>
+<Slider
+style={styles.slider}
+minimumValue={3}
+maximumValue={19}
+step={0.1}
+value={frequency}
+onValueChange={setFrequency}
+minimumTrackTintColor={frequencyColor}
+maximumTrackTintColor="rgba(255, 255, 255, 0.3)"
+thumbTintColor="#FFFFFF"
+disabled={isActive}
+/>
+{/* Frequency markers */}
+{/* Frequency range gradient bar */}
+<View style={styles.frequencyGradientContainer}>
+<LinearGradient
+colors={['#4EB3AC', '#56C988', '#8ED054', '#DBB942', '#F49A3A']}
+start={{x: 0, y: 0}}
+end={{x: 1, y: 0}}
+style={styles.frequencyGradient}
+/>
+{/* Range markers - layout migliorato */}
+<View style={styles.rangeMarkersContainer}>
+{[
+{ range: '3-6', label: 'Delta/Theta' },
+{ range: '6-9', label: 'Theta' },
+{ range: '9-12', label: 'Alpha', subLabel: 'Low' },
+{ range: '12-15', label: 'Alpha', subLabel: 'High' },
+{ range: '15-19', label: 'Beta' }
+].map((range, index) => (
+<View key={index} style={styles.rangeMarkerItem}>
+<Text style={styles.rangeMarkerValue}>{range.range} Hz</Text>
+<Text style={styles.rangeMarkerLabel}>{range.label}</Text>
+{range.subLabel && (
+<Text style={styles.rangeMarkerSubLabel}>{range.subLabel}</Text>
+)}
+</View>
+))}
+</View>
+</View>
+
+</View>
+{/* Intensity slider */}
+<View style={styles.controlContainer}>
+<View style={styles.controlHeader}>
+<Text style={styles.controlLabel}>{deepEffectLabel}</Text>
+<Text style={styles.controlValue}>{Math.round(intensity * 100)}%</Text>
+</View>
+<Slider
+style={styles.controlSlider}
+minimumValue={0.1}
+maximumValue={1}
+step={0.1}
+value={intensity}
+onValueChange={setIntensity}
+minimumTrackTintColor={frequencyColor}
+maximumTrackTintColor="rgba(255, 255, 255, 0.3)"
+thumbTintColor="#FFFFFF"
+disabled={isActive}
+/>
+<View style={styles.rangeLabels}>
+<Text style={styles.rangeLabel}>{lowLabel}</Text>
+<Text style={styles.rangeLabel}>{highLabel}</Text>
+</View>
+</View>
+{/* Timer Control */}
+<View style={styles.timerContainer}>
+<View style={styles.controlHeader}>
+<Text style={styles.controlLabel}>{timerLabel}</Text>
+<View style={styles.timerToggle}>
+<Text style={styles.timerValue}>
+{timerActive ? 
+  (isActive && remainingTime > 0 ? 
+    `${Math.floor(remainingTime / 60)}:${(remainingTime % 60).toString().padStart(2, '0')}` : 
+    `${timerMinutes} ${t('controls.timerMinutes', 'min')}`) : 
+  t('controls.timerOff', 'Off')}
+</Text>
+<TouchableOpacity
+style={[
+styles.timerButton,
+{ borderColor: timerActive ? frequencyColor : '#555' }
+]}
+onPress={() => setTimerActive(!timerActive)}
+>
+<View
+style={[
+styles.timerButtonInner,
+{ backgroundColor: timerActive ? frequencyColor : 'transparent' }
+]}
+/>
+</TouchableOpacity>
+</View>
+</View>
+<Slider
+style={styles.controlSlider}
+minimumValue={5}
+maximumValue={60}
+step={5}
+value={timerMinutes}
+onValueChange={setTimerMinutes}
+minimumTrackTintColor={timerActive ? frequencyColor : '#555'}
+maximumTrackTintColor="rgba(255, 255, 255, 0.3)"
+thumbTintColor="#FFFFFF"
+disabled={!timerActive || isActive}
+/>
+</View>
+
+</ScrollView>
+
+{/* Pulsante posizionato in modo fisso */}
+{/* Pulsante posizionato in modo fisso */}
+<View style={{
+position: 'absolute',
+bottom: 9, // Aumentato da 10 a 15 per abbassare leggermente i pulsanti
+left: 0,
+right: 0,
+alignItems: 'center',
+paddingHorizontal: 20,
+}}>
+
+<View style={{
+flexDirection: 'row',
+width: '100%',
+paddingHorizontal: 20,
+justifyContent: 'center',
+}}>
+{/* Pulsante START */}
+<TouchableOpacity 
+style={{
+width: 150,
+height: 45,
+borderRadius: 25,
+alignItems: 'center',
+justifyContent: 'center',
+backgroundColor: isActive ? frequencyColor : '#555555',
+marginRight: 23,
+}} 
+onPress={toggleActive}
+>
+<Text style={{
+color: 'white',
+fontSize: 16,
+fontWeight: 'bold',
+}}>
+{startButtonText}
+</Text>
+</TouchableOpacity>
+{/* Pulsante Background */}
+<TouchableOpacity 
+style={[
+{
+width: 150, // Ridotto da 150
+height: 45, // Ridotto da 45
+borderRadius: 25,
+alignItems: 'center',
+justifyContent: 'center',
+backgroundColor: '#333333',
+opacity: canGoBackground ? 1 : 0.5,
+borderWidth: canGoBackground ? 2 : 0,
+borderColor: canGoBackground ? frequencyColor : 'transparent',
+}
+]} 
+onPress={goToBackground}
+disabled={!canGoBackground}
+>
+<Text style={{
+color: 'white',
+fontSize: 16,
+fontWeight: 'bold',
+textAlign: 'center',
+}}>
+{backgroundButtonText}
+</Text>
+</TouchableOpacity>
+</View>
+<Text style={{
+  marginTop: 10,
+  color: '#AAAAAA',
+  fontSize: 14,
+  textAlign: 'center',
+}}>
+  {statusText}
+</Text>
+</View>
+</View>
+{showHowItWorks && (
+  <HowItWorks key={`how-it-works-${currentLanguage}`} onClose={() => setShowHowItWorks(false)} />
+)}
+{showBasiScientifiche && (
+  <BasiScientifiche key={`scientific-basis-${currentLanguage}`} onClose={() => setShowBasiScientifiche(false)} />
+)}
+{showDisclaimer && (
+  <Disclaimer key={`disclaimer-${currentLanguage}`} onClose={() => setShowDisclaimer(false)} />
+)}
+{showImpostazioni && (
+  <Impostazioni key={`settings-${currentLanguage}`} onClose={() => setShowImpostazioni(false)} />
+)}
+{showInformazioni && (
+  <Informazioni key={`info-${currentLanguage}`} onClose={() => setShowInformazioni(false)} />
+)}
+</SafeAreaView>
+);
+}
+const styles = StyleSheet.create({
+container: {
+flex: 1,
+backgroundColor: '#121824',
+},
+// Modifica questi stili esistenti
+scrollContent: {
+paddingHorizontal: 20,
+paddingTop: 5, // Ridotto da 10
+paddingBottom: 100, // Aumentato per garantire spazio per il pulsante fisso
+},
+title: {
+fontSize: 24, // Ridotto da 26
+fontWeight: 'bold',
+color: 'white',
+textAlign: 'center',
+marginBottom: 4, // Ridotto da 8
+},
+subtitle: {
+fontSize: 14, // Ridotto da 16
+color: '#8ED054',
+textAlign: 'center',
+marginBottom: 10, // Ridotto da 15
+},
+frequencyContainer: {
+width: '100%',
+backgroundColor: 'rgba(255, 255, 255, 0.1)',
+borderRadius: 15,
+padding: 12,
+marginBottom: 12, // Aumentato da 8 a 12 per dare più spazio dopo il blocco frequency
+},
+controlContainer: {
+width: '100%',
+backgroundColor: 'rgba(255, 255, 255, 0.1)',
+borderRadius: 15,
+paddingHorizontal: 12,
+paddingTop: 8,
+paddingBottom: 16, // Aumenta solo questo valore (era circa 8-12)
+marginBottom: 16,
+height: 70, // Ripristinato un'altezza sufficiente
+},
+timerContainer: {
+width: '100%',
+backgroundColor: 'rgba(255, 255, 255, 0.1)',
+borderRadius: 15,
+paddingHorizontal: 12,
+paddingTop: 8,
+paddingBottom: 16, // Aumenta solo questo valore
+marginBottom: 25,
+height: 70, 
+},
+
+frequencyHeader: {
+flexDirection: 'row',
+justifyContent: 'space-between',
+alignItems: 'center',
+marginBottom: 10,
+},
+controlHeader: {
+flexDirection: 'row',
+justifyContent: 'space-between',
+alignItems: 'center',
+marginBottom: 4, // Ripristinato un margine minimo
+marginTop: 6,
+},
+frequencyLabel: {
+fontSize: 18,
+color: '#FFFFFF',
+fontWeight: '500',
+},
+controlLabel: {
+fontSize: 15, // Mantenere la stessa dimensione di frequencyLabel
+color: '#FFFFFF',
+fontWeight: '500',
+marginTop: -5, // Aggiunto per far salire l'etichetta 
+},
+frequencyValue: {
+fontSize: 22,
+fontWeight: 'bold',
+color: '#FFFFFF',
+},
+controlValue: {
+fontSize: 18, // Ridotto da 20 per uniformità
+fontWeight: 'bold',
+color: '#FFFFFF',
+marginTop: -5, // Aggiunto per far salire il valore
+},
+brainwaveType: {
+  fontSize: 16,
+  textAlign: 'center',
+  marginVertical: 8,
+  color: '#8ED054',
+  fontFamily: Platform.OS === 'ios' ? 'PingFang SC' : 'Noto Sans CJK SC',
+},
+
+waveContainer: {
+height: 70, // Ridotto da 80
+width: '100%',
+backgroundColor: 'rgba(0, 0, 0, 0.2)',
+borderRadius: 8,
+overflow: 'hidden',
+marginVertical: 8, // Ridotto da 10
+justifyContent: 'center',
+alignItems: 'center',
+},
+slider: {
+width: '100%',
+height: 40,
+},
+markersContainer: {
+flexDirection: 'row',
+justifyContent: 'space-between',
+width: '100%',
+marginTop: 5,
+paddingHorizontal: 5,
+},
+markerItem: {
+alignItems: 'center',
+width: '18%',
+},
+markerDot: {
+width: 12,
+height: 12,
+borderRadius: 6,
+marginBottom: 5,
+},
+markerValue: {
+color: '#AAAAAA',
+fontSize: 12,
+fontWeight: 'bold',
+},
+markerLabel: {
+color: '#AAAAAA',
+fontSize: 11,
+textAlign: 'center',
+},
+rangeLabels: {
+flexDirection: 'row',
+justifyContent: 'space-between',
+width: '100%',
+paddingHorizontal: 5,
+marginTop: -10, // Rimuovi il valore negativo che le ha fatte scendere
+},
+rangeLabel: {
+color: '#AAAAAA',
+fontSize: 10, // Ridotto da 12
+marginTop: -2, // Aggiunto per avvicinare le etichette allo slider
+},
+timerToggle: {
+flexDirection: 'row',
+alignItems: 'center',
+marginTop: -4, // Aggiunto per allineare verticalmente con il testo Timer
+},
+timerValue: {
+color: '#FFFFFF',
+fontSize: 14, // Ridotto da 16
+marginRight: 8, // Ridotto da 10
+},
+timerButton: {
+width: 18, // Ridotto da 22
+height: 18, // Ridotto da 22
+borderRadius: 9, // Aggiornato per mantenere la forma circolare
+borderWidth: 2,
+borderColor: '#555',
+justifyContent: 'center',
+alignItems: 'center',
+},
+timerButtonInner: {
+width: 10, // Ridotto da 14
+height: 10, // Ridotto da 14
+borderRadius: 5, // Aggiornato per mantenere la forma circolare
+},
+startButton: {
+flex: 3, 
+paddingVertical: 15,
+borderRadius: 30,
+alignItems: 'center',
+justifyContent: 'center',
+shadowColor: '#000',
+shadowOffset: { width: 0, height: 2 },
+shadowOpacity: 0.3,
+shadowRadius: 5,
+elevation: 3,
+marginTop: 10, // spazio tra i pulsanti
+},
+startButtonText: {
+color: 'white',
+fontSize: 18,
+fontWeight: 'bold',
+letterSpacing: 2,
+},
+statusText: {
+marginTop: 10,
+color: '#AAAAAA',
+fontSize: 14,
+textAlign: 'center',
+},
+extraSpace: {
+height: 50,
+}, // Virgola qui, non parentesi
+fixedButtonContainer: {
+position: 'absolute',
+bottom: 10, // Ridotto da 20/30
+left: 20,
+right: 20,
+alignItems: 'center',
+paddingTop: 5,
+paddingBottom: 5,
+backgroundColor: '#121824', // Aggiunto sfondo per evitare trasparenze
+width: '100%',
+},
+controlSlider: {
+width: '100%',
+height: 25, // Mantieni l'altezza attuale
+marginVertical: 0,
+marginBottom: 12, // Aggiungi un margine sostanzioso sotto
+marginTop: -3, // Aggiungi un piccolo margine sopra per centrare meglio
+},
+buttonRow: {
+flexDirection: 'row',
+width: '100%',
+justifyContent: 'space-between',
+marginHorizontal: 4, // Margine ridotto
+},
+backgroundButton: {
+flex: 1,
+paddingVertical: 15,
+borderRadius: 30,
+alignItems: 'center',
+justifyContent: 'center',
+shadowColor: '#000',
+shadowOffset: { width: 0, height: 2 },
+shadowOpacity: 0.3,
+shadowRadius: 5,
+elevation: 3,
+},
+backgroundButtonText: {
+color: 'white',
+fontSize: 14,
+fontWeight: 'bold',
+textAlign: 'center', // Centra il testo
+lineHeight: 18, // Regola lo spazio tra le righe
+},
+frequencyGradientContainer: {
+width: '100%',
+marginTop: 10, // Aumentato da 5
+marginBottom: 15, // Aumentato da 10
+},
+frequencyGradient: {
+height: 12, // Ridotto da 15 per un look più elegante
+width: '100%',
+borderRadius: 6,
+},
+rangeMarkersContainer: {
+flexDirection: 'row',
+justifyContent: 'space-between',
+width: '100%',
+marginTop: 8, // Aumentato da 5
+paddingHorizontal: 0, // Ridotto per allineare meglio con il gradiente
+},
+rangeMarkerItem: {
+alignItems: 'center',
+width: '20%',
+},
+rangeMarkerValue: {
+color: '#FFFFFF',
+fontSize: 12,
+fontWeight: 'bold',
+marginBottom: 2,
+},
+rangeMarkerLabel: {
+color: '#AAAAAA',
+fontSize: 11,
+textAlign: 'center',
+},
+rangeMarkerSubLabel: {
+color: '#AAAAAA',
+fontSize: 10,
+textAlign: 'center',
+marginTop: -2, // Per avvicinarlo all'etichetta principale
+},
+// Aggiungi questi stili allo StyleSheet.create({...})
+headerContainer: {
+flexDirection: 'row',
+alignItems: 'center',
+width: '100%',
+marginBottom: 10,
+},
+titleContainer: {
+flex: 1,
+alignItems: 'center',
+},
+menuButton: {
+padding: 10,
+},
+menuIcon: {
+fontSize: 24,
+color: 'white',
+},
+menuPanel: {
+  position: 'absolute',
+  left: 0,
+  top: 0,
+  // Invece di impostare un'altezza percentuale, impostiamo un'altezza automatica
+  // che si adatta al contenuto
+  height: 'auto',
+  maxHeight: '70%', // Limite massimo di altezza
+  width: 220,
+  backgroundColor: '#EBEBEF',
+  zIndex: 1000,
+  borderRightWidth: 1,
+  borderRightColor: '#D0D0D5',
+  borderBottomRightRadius: 20,
+  elevation: 8,
+  shadowColor: '#000',
+  shadowOffset: { width: 3, height: 3 },
+  shadowOpacity: 0.4,
+  shadowRadius: 6,
+},
+menuTitle: {
+  color: '#121824',
+  fontSize: 22,        // Ridotto da 28 a 22
+  fontWeight: 'bold',
+  marginTop: 15,       // Ridotto da 25 a 15
+  marginBottom: 25,    // Ridotto da 35 a 25
+  textAlign: 'center',
+},
+menuItem: {
+  paddingVertical: 12, // Ridotto da 18 a 12
+  paddingHorizontal: 15, // Ridotto da 25 a 15
+  borderBottomWidth: 1,
+  borderBottomColor: '#D0D0D5',
+  marginVertical: 2,
+},
+menuItemText: {
+  color: '#121824',
+  fontSize: 16,
+  fontFamily: Platform.OS === 'ios' ? 'PingFang SC' : 'sans-serif',
+},
+lastMenuItem: {
+  marginBottom: 10, // Ridotto da 30 a 10
+  borderBottomWidth: 0,
+},
+floatingContainer: {
+position: 'absolute',
+backgroundColor: '#000000',
+padding: 12,
+borderRadius: 10,
+width: 80,
+height: 60,
+justifyContent: 'center',
+alignItems: 'center',
+zIndex: 2000,
+shadowColor: '#000',
+shadowOffset: { width: 0, height: 2 },
+shadowOpacity: 0.5,
+shadowRadius: 4,
+elevation: 8,
+},
+floatingEEGText: {
+color: '#8ED054', // Verde per indicare che è attivo
+fontSize: 16,
+fontWeight: 'bold',
+},
+floatingFrequencyText: {
+color: '#FFFFFF',
+fontSize: 14,
+},
+menuItemContent: {
+  flexDirection: 'row',
+  alignItems: 'center',
+},
+menuItemIcon: {
+  fontSize: 20,
+  marginRight: 10,
+  color: '#121824',
+},
+}); // <-- Parentesi di chiusura per StyleSheet.create() che manca

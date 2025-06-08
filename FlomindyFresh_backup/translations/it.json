@@ -1,0 +1,119 @@
+{
+  "app": {
+    "title": "Flomindy",
+    "subtitle": "App di Stimolazione Cerebrale"
+  },
+  "controls": {
+    "frequencyLabel": "Frequenza EEG",
+    "deepEffect": "Deep Effect",
+    "timer": "Timer",
+    "start": "START",
+    "stop": "STOP",
+    "background": "Background",
+    "low": "BASSO",
+    "high": "ALTO",
+    "focusingNow": "Concentrazione Attiva",
+    "readyToFocus": "Pronto per Concentrarsi",
+    "timerOff": "Off",
+    "timerMinutes": "min"
+  },
+  "menu": {
+    "title": "Menu",
+    "howItWorks": "Come funziona",
+    "scientificBasis": "Basi Scientifiche",
+    "disclaimer": "Disclaimer",
+    "settings": "Impostazioni",
+    "information": "Informazioni"
+  },
+  "settings": {
+    "language": "Lingua",
+    "currentLanguage": "Lingua attuale",
+    "notifications": "Notifiche",
+    "enableNotifications": "Abilita Notifiche",
+    "languageChanged": "Lingua Modificata",
+    "languageChangedMessage": "La lingua è stata modificata con successo."
+  },
+  "brainwaves": {
+    "deltaTheta": "Delta/Theta",
+    "theta": "Theta",
+    "alphaLow": "Alpha (Basso)",
+    "alphaHigh": "Alpha (Alto)",
+    "beta": "Beta",
+    "sleepRelaxation": "Sonno e Rilassamento",
+    "deepRelaxation": "Rilassamento Profondo",
+    "deepLearning": "Apprendimento Profondo",
+    "dynamicLearning": "Apprendimento Dinamico",
+    "problemSolving": "Problem Solving"
+  },
+  "backgroundMode": {
+    "title": "Modalità Background",
+    "message": "Flomindy funzionerà in background a {frequency} Hz.\n\n- Trascina la finestra per spostarla\n- Doppio tap: torna all'app\n- Pressione prolungata: chiude l'app",
+    "ok": "OK"
+  },
+  "howItWorks": {
+    "description": "Flomindy è un'applicazione innovativa che migliora le prestazioni mentali durante l'uso quotidiano del dispositivo attraverso lo sfarfallio dello schermo che si sincronizza con le onde cerebrali. Puoi usare il tuo dispositivo normalmente mantenendo le tue onde cerebrali alla frequenza più adatta alla tua attività.",
+    "howItWorksTitle": "Come Funziona",
+    "howItWorksText": "Specifiche frequenze di sfarfallio luminoso inducono il cervello a sincronizzarsi con queste frequenze (entrainment neurale), attivando specifici stati mentali:",
+    "frequencyPoint1": "3-6 Hz (Delta/Theta): Rilassamento profondo, meditazione e pensiero creativo",
+    "frequencyPoint2": "6-9 Hz (Theta): Stato di attenzione rilassata, creatività e memoria potenziate",
+    "frequencyPoint3": "9-12 Hz (Alpha Basso): Concentrazione rilassata, apprendimento e miglioramento della memoria",
+    "frequencyPoint4": "12-15 Hz (Alpha Alto): Concentrazione attiva, problem solving potenziato",
+    "frequencyPoint5": "15-30 Hz (Beta): Alta vigilanza, funzione cognitiva ottimale",
+    "howToUseTitle": "Come Usare Flomindy",
+    "howToUseStep1": "Seleziona la frequenza desiderata usando lo slider in base alla tua attività",
+    "howToUseStep2": "Regola l'intensità dell'effetto \"Deep Effect\"",
+    "howToUseStep3": "Imposta un timer opzionale",
+    "howToUseStep4": "Premi start per attivare l'effetto",
+    "howToUseStep5": "Premi background per continuare le tue normali attività mentre Flomindy mantiene il tuo cervello sincronizzato con la frequenza selezionata"
+  },
+  "scientificBasis": {
+    "description": "L'entrainment neurale tramite stimolazione luminosa è stato verificato da numerosi studi scientifici. La stimolazione visiva ritmica a frequenze specifiche può influenzare l'attività elettrica del cervello (EEG).",
+    "researchTitle": "Ricerche Chiave",
+    "research1": "Adrian e Matthews (1934) dimostrarono per primi la risposta del cervello alla stimolazione luminosa ritmica",
+    "research2": "Lo studio di Herrmann (2001) ha confermato che la stimolazione visiva può indurre oscillazioni sincronizzate delle onde cerebrali",
+    "research3": "Molteplici studi clinici mostrano benefici nell'apprendimento, nell'attenzione e nel rilassamento",
+    "entrainmentTitle": "Fenomeno dell'Entrainment Neurale",
+    "entrainmentText": "L'entrainment è un principio fondamentale della fisica che si verifica quando i sistemi ritmici interagiscono. Nel cervello, i neuroni tendono a sincronizzarsi con stimoli ritmici esterni, come la luce intermittente a frequenze specifiche.",
+    "applicationsTitle": "Applicazioni Pratiche",
+    "applicationsText": "L'utilizzo di frequenze specifiche per influenzare l'attività cerebrale ha diverse applicazioni:",
+    "application1": "Miglioramento dell'attenzione e della concentrazione",
+    "application2": "Supporto all'apprendimento e alla memoria",
+    "application3": "Tecniche di rilassamento e gestione dello stress",
+    "application4": "Ottimizzazione delle prestazioni cognitive",
+    "bibliographyTitle": "Bibliografia",
+    "bibliography1": "Adrian ED, Matthews BH. (1934). \"The Berger rhythm: potential changes from the occipital lobes in man.\" Brain, 57(4), 355-385.",
+    "bibliography2": "Herrmann CS. (2001). \"Human EEG responses to 1-100 Hz flicker: resonance phenomena in visual cortex and their potential correlation to cognitive phenomena.\" Experimental Brain Research, 137(3-4), 346-353.",
+    "bibliography3": "Notbohm A, Kurths J, Herrmann CS. (2016). \"Modification of brain oscillations via rhythmic light stimulation provides evidence for entrainment but not for superposition of event-related responses.\" Frontiers in Human Neuroscience, 10, 10.",
+    "bibliography4": "Yao J, Zhang L, Zhang C et al. (2024). \"Entrainment of γ-frequency light flicker regulates neuroinflammatory responses via IL-12 mediated cytokine production and ameliorates stress-related behavioral and cognitive deficits in chronically stressed mice.\" Brain, Behavior, and Immunity.",
+    "bibliography5": "Mankowska M, Mojs E, Samborska-Sablik A, Jarema M (2022). \"Neuropsychological and neurophysiological mechanisms behind flickering light: a narrative review.\" Frontiers in Psychology.",
+    "bibliography6": "Maylor SA, Birak DJ, Graham KS (2006). \"Improvement of recognition memory at 10 Hz flicker in older adults.\" BMC Neuroscience, 7, 21.",
+    "bibliography7": "Al-Abduljawad MZ et al. (2025). \"60 Hz white light flicker stimulation induces strong somatic and neural responses.\" bioRxiv."
+  },
+  "disclaimer": {
+    "warningTitle": "Avviso Importante",
+    "bullet1": "Flomindy è uno strumento di supporto al potenziamento cognitivo, non un dispositivo medico",
+    "bullet2": "Non utilizzare Flomindy se hai una storia di epilessia o fotosensibilità",
+    "bullet3": "Interrompi immediatamente l'uso se avverti disagio, vertigini, mal di testa o altri sintomi negativi",
+    "bullet4": "Consulta un medico prima dell'uso se hai condizioni neurologiche",
+    "bullet5": "Gli effetti possono variare tra gli individui",
+    "bullet6": "Non utilizzare durante la guida o l'utilizzo di macchinari",
+    "mainText": "Le informazioni fornite da Flomindy sono basate su ricerche scientifiche, ma l'applicazione non sostituisce la consulenza medica professionale. L'uso di questa applicazione è a tuo rischio.",
+    "liabilityTitle": "Limitazione di Responsabilità",
+    "liabilityText": "Gli sviluppatori di Flomindy non sono responsabili per eventuali danni diretti, indiretti o consequenziali derivanti dall'uso o dall'impossibilità di utilizzare questa applicazione. Gli utenti si assumono tutti i rischi associati all'utilizzo di questa applicazione."
+  },
+  "information": {
+    "version": "Versione",
+    "aboutTitle": "Informazioni sull'App",
+    "aboutText": "Flomindy è un'applicazione brevettata pensata per potenziare le performance mentali attraverso un processo chiamato \"entrainment neurale\". Utilizzando specifiche frequenze di flickering luminoso, l'app sincronizza le onde cerebrali ottimizzando lo stato mentale più adatto all'attività che stai svolgendo.",
+    "developersTitle": "Team di Sviluppo",
+    "developersText": "Concept e realizzazione è stata effettuata totalmente dal Team di sviluppo Yike Teck Co.LTD, l'applicazione è frutto di profonde conoscenze sia in ambito tecnologico sia cognitivo.",
+    "contactTitle": "Contatti",
+    "emailLabel": "Email:",
+    "websiteLabel": "Sito Web:",
+    "propertyTitle": "Proprietà Intellettuale",
+    "propertyText": "Flomindy è un'applicazione brevettata. La riproduzione, distribuzione o modifica non autorizzata è severamente vietata. Per richieste di licenza o domande relative alla proprietà intellettuale, vi preghiamo di contattarci direttamente.",
+    "legalNotesTitle": "Note Legali",
+    "legalNotesText": "L'utilizzo dell'app è soggetto alle normative vigenti sulla privacy e sulla protezione dei dati personali. Per maggiori informazioni, contattaci.",
+    "copyright": "© 2025 Flomindy. Tutti i diritti riservati."
+  }
+}

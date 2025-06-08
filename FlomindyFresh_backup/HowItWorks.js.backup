@@ -1,0 +1,111 @@
+import React from 'react';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
+
+export default function HowItWorks({ onClose }) {
+  const { t, i18n } = useTranslation();
+  
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+          <Text style={styles.closeButtonText}>✕</Text>
+        </TouchableOpacity>
+        <Text style={styles.title}>{t('menu.howItWorks')}</Text>
+      </View>
+      
+      <ScrollView style={styles.content}>
+        {/* IMPORTANTE: Questo View con key={i18n.language} forza il re-render */}
+        <View key={i18n.language}>
+          <Text style={styles.paragraph}>
+            {t('howItWorks.description')}
+          </Text>
+          
+          <Text style={styles.sectionTitle}>{t('howItWorks.howItWorksTitle')}</Text>
+          <Text style={styles.paragraph}>
+            {t('howItWorks.howItWorksText')}
+          </Text>
+          
+          <View style={styles.bulletPoints}>
+            <Text style={styles.bulletPoint}>• <Text style={styles.bold}>3-6 Hz (Delta/Theta)</Text>: {t('brainwaves.sleepRelaxation')}</Text>
+            <Text style={styles.bulletPoint}>• <Text style={styles.bold}>6-9 Hz (Theta)</Text>: {t('brainwaves.deepRelaxation')}</Text>
+            <Text style={styles.bulletPoint}>• <Text style={styles.bold}>9-12 Hz (Alpha basso)</Text>: {t('brainwaves.deepLearning')}</Text>
+            <Text style={styles.bulletPoint}>• <Text style={styles.bold}>12-15 Hz (Alpha alto)</Text>: {t('brainwaves.dynamicLearning')}</Text>
+            <Text style={styles.bulletPoint}>• <Text style={styles.bold}>15-19 Hz (Beta)</Text>: {t('brainwaves.problemSolving')}</Text>
+          </View>
+          
+          <Text style={styles.sectionTitle}>{t('howItWorks.howToUseTitle')}</Text>
+          <View style={styles.bulletPoints}>
+            <Text style={styles.bulletPoint}>1. {t('howItWorks.howToUseStep1')}</Text>
+            <Text style={styles.bulletPoint}>2. {t('howItWorks.howToUseStep2')}</Text>
+            <Text style={styles.bulletPoint}>3. {t('howItWorks.howToUseStep3')}</Text>
+            <Text style={styles.bulletPoint}>4. {t('howItWorks.howToUseStep4')}</Text>
+            <Text style={styles.bulletPoint}>5. {t('howItWorks.howToUseStep5')}</Text>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#121824',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#333',
+  },
+  closeButton: {
+    padding: 10,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 20,
+  },
+  title: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 20,
+  },
+  content: {
+    flex: 1,
+    padding: 20,
+  },
+  paragraph: {
+    color: 'white',
+    fontSize: 16,
+    lineHeight: 24,
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    color: '#8ED054',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 15,
+  },
+  bulletPoints: {
+    marginBottom: 20,
+  },
+  bulletPoint: {
+    color: 'white',
+    fontSize: 16,
+    lineHeight: 24,
+    marginBottom: 10,
+  },
+  bold: {
+    fontWeight: 'bold',
+  }
+});

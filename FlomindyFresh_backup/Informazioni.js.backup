@@ -1,0 +1,149 @@
+import React from 'react';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Linking } from 'react-native';
+
+export default function Informazioni({ onClose }) {
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+          <Text style={styles.closeButtonText}>✕</Text>
+        </TouchableOpacity>
+        <Text style={styles.title}>Informazioni</Text>
+      </View>
+      
+      <ScrollView style={styles.content}>
+        <View style={styles.logoContainer}>
+          <Text style={styles.logoText}>Flomindy</Text>
+          <Text style={styles.versionText}>Versione 1.0.0</Text>
+        </View>
+        
+        <Text style={styles.sectionTitle}>Informazioni sull'App</Text>
+        <Text style={styles.paragraph}>
+        Flomindy è un'applicazione brevettata pensata per potenziare le performance mentali attraverso un processo chiamato "entrainment neurale". Utilizzando specifiche frequenze di flickering luminoso, l'app sincronizza le onde cerebrali ottimizzando lo stato mentale più adatto all'attività che stai svolgendo.
+        </Text>
+        
+        <Text style={styles.sectionTitle}>Sviluppatori</Text>
+        <Text style={styles.paragraph}>
+          Sviluppato con passione dal team Flomindy. Per qualsiasi informazione o supporto, non esitare a contattarci.
+        </Text>
+        
+        <Text style={styles.sectionTitle}>Contatti</Text>
+        <View style={styles.contactItem}>
+          <Text style={styles.contactLabel}>Email:</Text>
+          <TouchableOpacity onPress={() => Linking.openURL('mailto:info@flomindy.com')}>
+            <Text style={styles.linkText}>info@flomindy.com</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.contactItem}>
+          <Text style={styles.contactLabel}>Sito Web:</Text>
+          <TouchableOpacity onPress={() => Linking.openURL('https://www.flomindy.com')}>
+            <Text style={styles.linkText}>www.flomindy.com</Text>
+          </TouchableOpacity>
+        </View>
+        
+        <Text style={styles.sectionTitle}>Proprietà Intellettuale</Text>
+        <Text style={styles.paragraph}>
+          Flomindy è un'applicazione brevettata. La riproduzione, distribuzione o modifica non autorizzata è severamente vietata. Per richieste di licenza o domande relative alla proprietà intellettuale, vi preghiamo di contattarci direttamente.
+        </Text>
+        
+        <Text style={styles.sectionTitle}>Privacy Policy</Text>
+        <TouchableOpacity onPress={() => Linking.openURL('https://www.flomindy.com/privacy')}>
+          <Text style={styles.linkText}>Visualizza la Privacy Policy</Text>
+        </TouchableOpacity>
+        
+        <Text style={styles.sectionTitle}>Termini di Servizio</Text>
+        <TouchableOpacity onPress={() => Linking.openURL('https://www.flomindy.com/terms')}>
+          <Text style={styles.linkText}>Visualizza i Termini di Servizio</Text>
+        </TouchableOpacity>
+        
+        <Text style={styles.copyrightText}>© 2025 Flomindy. Tutti i diritti riservati.</Text>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#121824',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#333',
+  },
+  closeButton: {
+    padding: 10,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 20,
+  },
+  title: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 20,
+  },
+  content: {
+    flex: 1,
+    padding: 20,
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 30,
+    marginTop: 10,
+  },
+  logoText: {
+    color: '#8ED054',
+    fontSize: 32,
+    fontWeight: 'bold',
+  },
+  versionText: {
+    color: '#AAAAAA',
+    fontSize: 16,
+    marginTop: 10,
+  },
+  sectionTitle: {
+    color: '#8ED054',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 15,
+  },
+  paragraph: {
+    color: 'white',
+    fontSize: 16,
+    lineHeight: 24,
+    marginBottom: 20,
+  },
+  contactItem: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  contactLabel: {
+    color: 'white',
+    fontSize: 16,
+    width: 80,
+  },
+  linkText: {
+    color: '#8ED054',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+  },
+  copyrightText: {
+    color: '#AAAAAA',
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 40,
+    marginBottom: 20,
+  }
+});

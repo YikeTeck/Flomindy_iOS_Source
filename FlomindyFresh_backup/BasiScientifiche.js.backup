@@ -1,0 +1,125 @@
+import React from 'react';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+
+export default function BasiScientifiche({ onClose }) {
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+          <Text style={styles.closeButtonText}>✕</Text>
+        </TouchableOpacity>
+        <Text style={styles.title}>Basi Scientifiche</Text>
+      </View>
+      
+      <ScrollView style={styles.content}>
+        <Text style={styles.paragraph}>
+          L'entrainment neurale tramite stimolazione luminosa è documentato da numerosi studi scientifici. La stimolazione visiva ritmica a frequenze specifiche può influenzare l'attività elettrica del cervello (EEG).
+        </Text>
+        
+        <Text style={styles.sectionTitle}>Ricerche principali</Text>
+        <View style={styles.bulletPoints}>
+          <Text style={styles.bulletPoint}>• Gli studi di Adrian & Matthews (1934) hanno dimostrato per primi la risposta del cervello alla stimolazione luminosa ritmica</Text>
+          <Text style={styles.bulletPoint}>• Le ricerche di Herrmann (2001) confermano che la stimolazione visiva può indurre oscillazioni EEG sincronizzate</Text>
+          <Text style={styles.bulletPoint}>• Diversi studi clinici hanno evidenziato benefici nell'apprendimento, attenzione e rilassamento</Text>
+        </View>
+        
+        <Text style={styles.sectionTitle}>Fenomeno dell'entrainment</Text>
+        <Text style={styles.paragraph}>
+          L'entrainment (sincronizzazione) è un principio fondamentale della fisica che si verifica quando sistemi ritmici interagiscono. Nel cervello, i neuroni tendono a sincronizzarsi con stimoli ritmici esterni, come la luce lampeggiante a frequenze specifiche.
+        </Text>
+        
+        <Text style={styles.sectionTitle}>Applicazioni pratiche</Text>
+        <Text style={styles.paragraph}>
+          L'uso di frequenze specifiche per influenzare l'attività cerebrale ha diverse applicazioni:
+        </Text>
+        <View style={styles.bulletPoints}>
+          <Text style={styles.bulletPoint}>• Miglioramento dell'attenzione e della concentrazione</Text>
+          <Text style={styles.bulletPoint}>• Supporto all'apprendimento e alla memorizzazione</Text>
+          <Text style={styles.bulletPoint}>• Tecniche di rilassamento e gestione dello stress</Text>
+          <Text style={styles.bulletPoint}>• Ottimizzazione delle prestazioni cognitive</Text>
+        </View>
+        
+        <Text style={styles.sectionTitle}>Bibliografia e riferimenti</Text>
+        <View style={styles.bulletPoints}>
+          <Text style={styles.bulletPoint}>• Adrian ED, Matthews BH. (1934). "The Berger rhythm: potential changes from the occipital lobes in man." Brain, 57(4), 355-385.</Text>
+          
+          <Text style={styles.bulletPoint}>• Herrmann CS. (2001). "Human EEG responses to 1-100 Hz flicker: resonance phenomena in visual cortex and their potential correlation to cognitive phenomena." Experimental Brain Research, 137(3-4), 346-353.</Text>
+          
+          <Text style={styles.bulletPoint}>• Notbohm A, Kurths J, Herrmann CS. (2016). "Modification of brain oscillations via rhythmic light stimulation provides evidence for entrainment but not for superposition of event-related responses." Frontiers in Human Neuroscience, 10, 10.</Text>
+          
+          <Text style={styles.bulletPoint}>• Yao J, et al. (2024). "Rhythmic gamma frequency light flickering ameliorates stress-related behaviors and cognitive deficits by modulating neuroinflammatory response." Brain, Behavior, and Immunity.</Text>
+          
+          <Text style={styles.bulletPoint}>• Mankowska M, et al. (2022). "Neuropsychological and Neurophysiological Mechanisms behind Flickering Light: A Narrative Review." Frontiers in Psychology.</Text>
+          
+          <Text style={styles.bulletPoint}>• Maylor SA, et al. (2006). "10 Hz flicker improves recognition memory in older people." BMC Neuroscience, 7(21).</Text>
+          
+          <Text style={styles.bulletPoint}>• Al-Abduljawad MZ, et al. (2025). "Flickering white light stimulation at 60 Hz induces strong somatic and neural responses." bioRxiv.</Text>
+          
+          <Text style={styles.bulletPoint}>• Bulla L. (2021). "Uno sguardo sulla stimolazione con flicker luminoso." Università degli Studi di Padova.</Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#121824',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#333',
+  },
+  closeButton: {
+    padding: 10,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 20,
+  },
+  title: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 20,
+  },
+  content: {
+    flex: 1,
+    padding: 20,
+  },
+  paragraph: {
+    color: 'white',
+    fontSize: 16,
+    lineHeight: 24,
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    color: '#8ED054',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 15,
+  },
+  bulletPoints: {
+    marginBottom: 20,
+  },
+  bulletPoint: {
+    color: 'white',
+    fontSize: 16,
+    lineHeight: 24,
+    marginBottom: 10,
+  },
+  bold: {
+    fontWeight: 'bold',
+  }
+});

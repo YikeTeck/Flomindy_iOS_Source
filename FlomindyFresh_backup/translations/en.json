@@ -1,0 +1,119 @@
+{
+  "app": {
+    "title": "Flomindy",
+    "subtitle": "Brain Stimulation App"
+  },
+  "controls": {
+    "frequencyLabel": "EEG Frequency",
+    "deepEffect": "Deep Effect",
+    "timer": "Timer",
+    "start": "START",
+    "stop": "STOP",
+    "background": "Background",
+    "low": "LOW",
+    "high": "HIGH",
+    "focusingNow": "Focusing Now",
+    "readyToFocus": "Ready to Focus",
+    "timerOff": "Off",
+    "timerMinutes": "min"
+  },
+  "menu": {
+    "title": "Menu",
+    "howItWorks": "How It Works",
+    "scientificBasis": "Scientific Basis",
+    "disclaimer": "Disclaimer",
+    "settings": "Settings",
+    "information": "Information"
+  },
+  "settings": {
+    "language": "Language",
+    "currentLanguage": "Current language",
+    "notifications": "Notifications",
+    "enableNotifications": "Enable Notifications",
+    "languageChanged": "Language Changed",
+    "languageChangedMessage": "Language has been changed successfully."
+  },
+  "brainwaves": {
+    "deltaTheta": "Delta/Theta",
+    "theta": "Theta",
+    "alphaLow": "Alpha (Low)",
+    "alphaHigh": "Alpha (High)",
+    "beta": "Beta",
+    "sleepRelaxation": "Sleep & Relaxation",
+    "deepRelaxation": "Deep Relaxation",
+    "deepLearning": "Deep Learning",
+    "dynamicLearning": "Dynamic Learning",
+    "problemSolving": "Problem Solving"
+  },
+  "backgroundMode": {
+    "title": "Background Mode",
+    "message": "Flomindy will work in the background at {frequency} Hz.\n\n- Drag the window to move it\n- Double tap: return to the app\n- Long press: close the app",
+    "ok": "OK"
+  },
+  "howItWorks": {
+    "description": "Flomindy is an innovative application that enhances mental performance during everyday device use through screen flickering that synchronizes with brainwaves. You can use your device normally while keeping your brain waves at the frequency most suitable for your activity.",
+    "howItWorksTitle": "How It Works",
+    "howItWorksText": "Specific frequencies of light flickering induce the brain to synchronize with these frequencies (neural entrainment), activating specific mental states:",
+    "frequencyPoint1": "3-6 Hz (Delta/Theta): Deep relaxation, meditation, and creative thinking",
+    "frequencyPoint2": "6-9 Hz (Theta): Relaxed alertness, enhanced creativity and memory",
+    "frequencyPoint3": "9-12 Hz (Alpha Low): Relaxed focus, learning and memory enhancement",
+    "frequencyPoint4": "12-15 Hz (Alpha High): Active focus, enhanced problem-solving",
+    "frequencyPoint5": "15-30 Hz (Beta): High alertness, optimal cognitive function",
+    "howToUseTitle": "How to Use Flomindy",
+    "howToUseStep1": "Select your desired frequency using the slider based on your activity",
+    "howToUseStep2": "Adjust the \"Deep Effect\" intensity",
+    "howToUseStep3": "Set an optional timer",
+    "howToUseStep4": "Press start to activate the effect",
+    "howToUseStep5": "Press background to continue your normal activities while Flomindy keeps your brain synchronized with the selected frequency"
+  },
+  "scientificBasis": {
+    "description": "Neural entrainment through light stimulation has been verified by numerous scientific studies. Rhythmic visual stimulation at specific frequencies can influence the brain's electrical activity (EEG).",
+    "researchTitle": "Key Research",
+    "research1": "Adrian and Matthews (1934) first demonstrated the brain's response to rhythmic light stimulation",
+    "research2": "Herrmann's (2001) study confirmed visual stimulation can induce synchronized brain wave oscillations",
+    "research3": "Multiple clinical studies show benefits in learning, attention, and relaxation",
+    "entrainmentTitle": "Neural Entrainment Phenomenon",
+    "entrainmentText": "Entrainment is a fundamental principle in physics that occurs when rhythmic systems interact. In the brain, neurons tend to synchronize with external rhythmic stimuli, such as flickering light at specific frequencies.",
+    "applicationsTitle": "Practical Applications",
+    "applicationsText": "Using specific frequencies to influence brain activity has several applications:",
+    "application1": "Enhancing attention and focus",
+    "application2": "Supporting learning and memory",
+    "application3": "Relaxation techniques and stress management",
+    "application4": "Optimizing cognitive performance",
+    "bibliographyTitle": "Bibliography",
+    "bibliography1": "Adrian ED, Matthews BH. (1934). \"The Berger rhythm: potential changes from the occipital lobes in man.\" Brain, 57(4), 355-385.",
+    "bibliography2": "Herrmann CS. (2001). \"Human EEG responses to 1-100 Hz flicker: resonance phenomena in visual cortex and their potential correlation to cognitive phenomena.\" Experimental Brain Research, 137(3-4), 346-353.",
+    "bibliography3": "Notbohm A, Kurths J, Herrmann CS. (2016). \"Modification of brain oscillations via rhythmic light stimulation provides evidence for entrainment but not for superposition of event-related responses.\" Frontiers in Human Neuroscience, 10, 10.",
+    "bibliography4": "Yao J, Zhang L, Zhang C et al. (2024). \"Entrainment of γ-frequency light flicker regulates neuroinflammatory responses via IL-12 mediated cytokine production and ameliorates stress-related behavioral and cognitive deficits in chronically stressed mice.\" Brain, Behavior, and Immunity.",
+    "bibliography5": "Mankowska M, Mojs E, Samborska-Sablik A, Jarema M (2022). \"Neuropsychological and neurophysiological mechanisms behind flickering light: a narrative review.\" Frontiers in Psychology.",
+    "bibliography6": "Maylor SA, Birak DJ, Graham KS (2006). \"Improvement of recognition memory at 10 Hz flicker in older adults.\" BMC Neuroscience, 7, 21.",
+    "bibliography7": "Al-Abduljawad MZ et al. (2025). \"60 Hz white light flicker stimulation induces strong somatic and neural responses.\" bioRxiv."
+  },
+  "disclaimer": {
+    "warningTitle": "Important Notice",
+    "bullet1": "Flomindy is a cognitive enhancement support tool, not a medical device",
+    "bullet2": "Do not use Flomindy if you have a history of epilepsy or photosensitivity",
+    "bullet3": "Stop using immediately if you experience discomfort, dizziness, headache, or other negative symptoms",
+    "bullet4": "Consult a doctor before use if you have any neurological conditions",
+    "bullet5": "Effects may vary among individuals",
+    "bullet6": "Do not use while driving or operating machinery",
+    "mainText": "Information provided by Flomindy is based on scientific research, but the application is not a substitute for professional medical advice. Use of this application is at your own risk.",
+    "liabilityTitle": "Limitation of Liability",
+    "liabilityText": "The developers of Flomindy are not liable for any direct, indirect, or consequential damages arising from the use or inability to use this application. Users assume all risks associated with using this application."
+  },
+  "information": {
+    "version": "Version",
+    "aboutTitle": "About the App",
+    "aboutText": "Flomindy is a patented application designed to enhance mental performance through a process called \"neural entrainment\". Using specific frequencies of light flickering, the app synchronizes brainwaves, optimizing the mental state most suitable for the activity you are performing.",
+    "developersTitle": "Development Team",
+    "developersText": "Concept and development were entirely carried out by the Yike Teck Co.LTD Development Team. The application is the result of deep knowledge in both technological and cognitive fields.",
+    "contactTitle": "Contacts",
+    "emailLabel": "Email:",
+    "websiteLabel": "Website:",
+    "propertyTitle": "Intellectual Property",
+    "propertyText": "Flomindy is a patented application. Unauthorized reproduction, distribution, or modification is strictly prohibited. For licensing requests or intellectual property questions, please contact us directly.",
+    "legalNotesTitle": "Legal Notes",
+    "legalNotesText": "The use of the app is subject to current regulations on privacy and personal data protection. For more information, please contact us.",
+    "copyright": "© 2025 Flomindy. All rights reserved."
+  }
+}
